@@ -69,7 +69,7 @@ java -cp out com.devandrade.financemanagemei.main.Main
 
 ## Arquitetura
 
-O planejamento técnico completo — decisões de arquitetura (ADR), modelagem de dados, estrutura de pacotes e fluxo de requisição — está documentado em [`ARCHITECTURE.md`](./ARCHITECTURE.md), com o diagrama de arquitetura em [`arquiteturaFinanceManagerMei.puml`](./arquiteturaFinanceManagerMei.puml) (PlantUML).
+O planejamento técnico completo — decisões de arquitetura (ADR), modelagem de dados, estrutura de pacotes e fluxo de requisição — está documentado em [`ARCHITECTURE.md`](./ARCHITECTURE.md).
 
 ## Autor
 
