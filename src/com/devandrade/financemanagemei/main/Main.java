@@ -20,31 +20,32 @@ public class Main {
                 System.out.println("Opção Invalida, Tente Novamente.");
                 continue;
             }
-            System.out.println("Nome Empresario: ");
-            empresa.nomeEmpresario = scanner.nextLine();
 
-            String possuiFuncionarioTexto;
+            do {
+                System.out.println("Nome Empresario: ");
+            } while (!empresa.setNomeEmpresario(scanner.nextLine()));
+
             while (true) {
                 System.out.println("Possui Funcionario?: Digite S ou N");
                 String respostaFuncionario = scanner.nextLine();
                 if (respostaFuncionario.equalsIgnoreCase("S") || respostaFuncionario.equalsIgnoreCase("SIM")) {
-                    empresa.possuiFuncionario = true;
-                    possuiFuncionarioTexto = "SIM";
+                    empresa.setPossuiFuncionario(true);
                     break;
                 } else if (respostaFuncionario.equalsIgnoreCase("N") || respostaFuncionario.equalsIgnoreCase("NAO") || respostaFuncionario.equalsIgnoreCase("NÃO")) {
-                    empresa.possuiFuncionario = false;
-                    possuiFuncionarioTexto = "NÃO";
+                    empresa.setPossuiFuncionario(false);
                     break;
                 }
                 System.out.println("Resposta Invalida.");
 
             }
+            do {
+                System.out.println("Razão Social: (ex: nome completo + cnpj)");
+            } while (!empresa.setRazaoSocial(scanner.nextLine()));
 
-            System.out.println("Razão Social: (ex: nome completo + cnpj)");
-            empresa.razaoSocial = scanner.nextLine();
-
-            System.out.println("Tipo de Atuação\n[ 1 ] Comercio \n[ 2 ] Industria \n[ 3 ] Prestação de Serviços\nDigite 1, 2 ou 3: ");
-            empresa.tipoAtuacao = Integer.parseInt(scanner.nextLine());
+            do {
+                System.out.println("Tipo de Atuação\n[ 1 ] Comercio \n[ 2 ] Industria \n[ 3 ] Prestação de Serviços\nDigite 1, 2 ou 3: ");
+            }
+            while (!empresa.setTipoAtuacao(Integer.parseInt(scanner.nextLine())));
 
             double[] faturamentosArray = new double[12];
             StringBuilder faturamentosSb = new StringBuilder();
@@ -55,7 +56,7 @@ public class Main {
                 faturamentosSb.append("\nMês: ").append(i+1).append(" | ").append(String.format("Faturamento: R$ %.2f",faturamentosArray[i]));
             }
             String faturamentosMensaisTexto = faturamentosSb.toString();
-            empresa.faturamentos = faturamentosArray;
+            empresa.setFaturamentos(faturamentosArray);
 
             String relatorio = """
                     === RELATÓRIO ===
@@ -70,8 +71,8 @@ public class Main {
                     Margem de Faturamento Restante: R$ %.2f
                     Empresa Regular: %s
                     Faturamento Mensais: %s
-                    """.formatted(empresa.nomeEmpresario, empresa.razaoSocial, empresa.verificarTipoAtuacao(),
-                    empresa.calcularValorDas(), empresa.verificarStatusImposto(), possuiFuncionarioTexto,
+                    """.formatted(empresa.getNomeEmpresario(), empresa.getRazaoSocial(), empresa.verificarTipoAtuacao(),
+                    empresa.calcularValorDas(), empresa.verificarStatusImposto(), empresa.verificarPossuiFuncionario(),
                     empresa.calcularFaturamentoAnual(), empresa.avaliarFaturamentoAnual(),
                     empresa.margemFaturamentoRestante(), empresa.verificarEmpresaRegular(), faturamentosMensaisTexto);
             System.out.println(relatorio);
