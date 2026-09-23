@@ -2,60 +2,18 @@ package com.devandrade.financemanagemei.dominio;
 
 public class EmpresaMei {
     private static final double LIMITE_ANUAL_MEI = 81000.00;
-    private String nomeEmpresario;
-    private String razaoSocial;
-    private int tipoAtuacao;
+    private final String nomeEmpresario;
+    private final String razaoSocial;
+    private final int tipoAtuacao;
     private double[] faturamentos;
     private char statusImposto = 'A';
     private boolean possuiFuncionario;
 
-    public String getNomeEmpresario() {
-        return nomeEmpresario;
-    }
-
-    public boolean setNomeEmpresario(String nomeEmpresario) {
-        if (nomeEmpresario.length() < 4) {
-            System.out.println("Nome Invalido");
-            return false;
-        }
+    public EmpresaMei(String nomeEmpresario, String razaoSocial, int tipoAtuacao) {
         this.nomeEmpresario = nomeEmpresario;
-        return true;
-    }
-
-    public String getRazaoSocial() {
-        return razaoSocial;
-    }
-
-    public boolean setRazaoSocial(String razaoSocial) {
-        if (razaoSocial.length() < 15) {
-            System.out.println("Razão Incompleta.");
-            return false;
-        }
         this.razaoSocial = razaoSocial;
-        return true;
-    }
-
-    public boolean setTipoAtuacao(int tipoAtuacao) {
-        if (tipoAtuacao <= 0 || tipoAtuacao > 3){
-            System.out.println("Atuação Invalida");
-            return false;
-        }
         this.tipoAtuacao = tipoAtuacao;
-        return true;
     }
-
-    public void setFaturamentos(double[] faturamentos) {
-        if (faturamentos == null) {
-            System.out.println("Sem faturamentos");
-            return;
-        }
-        this.faturamentos = faturamentos;
-    }
-
-    public void setPossuiFuncionario(boolean possuiFuncionario) {
-        this.possuiFuncionario = possuiFuncionario;
-    }
-
 
     public String verificarPossuiFuncionario() {
         return this.possuiFuncionario ? "SIM" : "NÃO";
@@ -119,4 +77,26 @@ public class EmpresaMei {
         }
         return "Empresa regulamentada.";
     }
+
+    public String getNomeEmpresario() {
+        return nomeEmpresario;
+    }
+
+    public String getRazaoSocial() {
+        return razaoSocial;
+    }
+
+    public void setFaturamentos(double[] faturamentos) {
+        if (faturamentos == null) {
+            System.out.println("Sem faturamentos");
+            return;
+        }
+        this.faturamentos = faturamentos;
+    }
+
+    public void setPossuiFuncionario(boolean possuiFuncionario) {
+        this.possuiFuncionario = possuiFuncionario;
+    }
+
+
 }

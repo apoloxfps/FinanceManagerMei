@@ -5,10 +5,10 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        EmpresaMei empresa = new EmpresaMei();
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
+
             System.out.println("=== Finance Manager Mei ===\n[ 1 ] Imprimir Relatório.\n[ 2 ] Sair do Sistema\nDigite 1 ou 2");
             int opcao = Integer.parseInt(scanner.nextLine());
 
@@ -21,9 +21,31 @@ public class Main {
                 continue;
             }
 
-            do {
-                System.out.println("Nome Empresario: ");
-            } while (!empresa.setNomeEmpresario(scanner.nextLine()));
+            /* TODO: validação de nome/razão social/atuação deveria viver em EmpresaMei,
+                não em Main — duplicação temporária até chegar em exceções (aula 95+)*/
+            System.out.println("Nome Empresario: ");
+            String nomeEmpresario = scanner.nextLine();
+            while (nomeEmpresario.length() < 3) {
+                System.out.println("Nome Invalido");
+                nomeEmpresario = scanner.nextLine();
+            }
+
+
+            System.out.println("Razão Social: (ex: nome completo + cnpj)");
+            String razaoSocial = scanner.nextLine();
+            while (razaoSocial.length() < 15) {
+                System.out.println("Razão Social Invalida");
+                razaoSocial = scanner.nextLine();
+            }
+
+            System.out.println("Tipo de Atuação\n[ 1 ] Comercio \n[ 2 ] Industria \n[ 3 ] Prestação de Serviços\nDigite 1, 2 ou 3: ");
+            int tipoAtuacao = Integer.parseInt(scanner.nextLine());
+            while (tipoAtuacao <= 0 || tipoAtuacao > 3) {
+                System.out.println("Atuação Invalida.");
+                tipoAtuacao = Integer.parseInt(scanner.nextLine());
+            }
+
+            EmpresaMei empresa = new EmpresaMei(nomeEmpresario, razaoSocial, tipoAtuacao);
 
             while (true) {
                 System.out.println("Possui Funcionario?: Digite S ou N");
@@ -38,14 +60,6 @@ public class Main {
                 System.out.println("Resposta Invalida.");
 
             }
-            do {
-                System.out.println("Razão Social: (ex: nome completo + cnpj)");
-            } while (!empresa.setRazaoSocial(scanner.nextLine()));
-
-            do {
-                System.out.println("Tipo de Atuação\n[ 1 ] Comercio \n[ 2 ] Industria \n[ 3 ] Prestação de Serviços\nDigite 1, 2 ou 3: ");
-            }
-            while (!empresa.setTipoAtuacao(Integer.parseInt(scanner.nextLine())));
 
             double[] faturamentosArray = new double[12];
             StringBuilder faturamentosSb = new StringBuilder();
@@ -63,7 +77,7 @@ public class Main {
                     Nome da Empresa: %s
                     Razão Social: %s
                     Atuação: %s
-                    Imposto Mensal: R$ %.2f
+                    Imposto DAS (Mensal): R$ %.2f
                     Status do Imposto : %s
                     Possui Funcionário: %s
                     Faturamento Anual: R$ %.2f
