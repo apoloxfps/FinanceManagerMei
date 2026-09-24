@@ -13,6 +13,7 @@ public class Main {
             int opcao = Integer.parseInt(scanner.nextLine());
 
             if (opcao == 2) {
+                System.out.printf("Total de empresas cadastradas nesta sessão: %d%n", EmpresaMei.getTotalDeEmpresasCadastradas());
                 System.out.println("Sistema Finalizado.");
                 break;
             }

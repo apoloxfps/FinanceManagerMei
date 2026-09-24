@@ -2,6 +2,7 @@ package com.devandrade.financemanagemei.dominio;
 
 public class EmpresaMei {
     private static final double LIMITE_ANUAL_MEI = 81000.00;
+    private static int totalDeEmpresasCadastradas;
     private final String nomeEmpresario;
     private final String razaoSocial;
     private final int tipoAtuacao;
@@ -13,6 +14,7 @@ public class EmpresaMei {
         this.nomeEmpresario = nomeEmpresario;
         this.razaoSocial = razaoSocial;
         this.tipoAtuacao = tipoAtuacao;
+        EmpresaMei.totalDeEmpresasCadastradas += 1;
     }
 
     public String verificarPossuiFuncionario() {
@@ -98,5 +100,7 @@ public class EmpresaMei {
         this.possuiFuncionario = possuiFuncionario;
     }
 
-
+    public static int getTotalDeEmpresasCadastradas() {
+        return totalDeEmpresasCadastradas;
+    }
 }
