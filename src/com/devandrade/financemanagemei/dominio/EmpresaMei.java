@@ -9,11 +9,13 @@ public class EmpresaMei {
     private double[] faturamentos;
     private char statusImposto = 'A';
     private boolean possuiFuncionario;
+    private final Endereco endereco;
 
-    public EmpresaMei(String nomeEmpresario, String razaoSocial, int tipoAtuacao) {
+    public EmpresaMei(String nomeEmpresario, String razaoSocial, int tipoAtuacao, Endereco endereco) {
         this.nomeEmpresario = nomeEmpresario;
         this.razaoSocial = razaoSocial;
         this.tipoAtuacao = tipoAtuacao;
+        this.endereco = endereco;
         EmpresaMei.totalDeEmpresasCadastradas += 1;
     }
 
@@ -102,5 +104,9 @@ public class EmpresaMei {
 
     public static int getTotalDeEmpresasCadastradas() {
         return totalDeEmpresasCadastradas;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
     }
 }

@@ -1,5 +1,6 @@
 package com.devandrade.financemanagemei.main;
 import com.devandrade.financemanagemei.dominio.EmpresaMei;
+import com.devandrade.financemanagemei.dominio.Endereco;
 
 import java.util.Scanner;
 
@@ -22,8 +23,9 @@ public class Main {
                 continue;
             }
 
-            /* TODO: validação de nome/razão social/atuação deveria viver em EmpresaMei,
-                não em Main — duplicação temporária até chegar em exceções (aula 95+)*/
+            /* TODO: validação de nome/razão social/atuação/logradouro/numero/cidade/bairro
+                deveria viver em suas Classes de dominio, não em Main —
+                duplicação temporária até chegar em exceções (aula 95+)*/
             System.out.println("Nome Empresario: ");
             String nomeEmpresario = scanner.nextLine();
             while (nomeEmpresario.length() < 3) {
@@ -46,10 +48,39 @@ public class Main {
                 tipoAtuacao = Integer.parseInt(scanner.nextLine());
             }
 
-            EmpresaMei empresa = new EmpresaMei(nomeEmpresario, razaoSocial, tipoAtuacao);
+            System.out.print("Logradouro da Empresa: ");
+            String logradouro = scanner.nextLine();
+            while (logradouro.length() < 4) {
+                System.out.println("Logradouro Invalido");
+                logradouro = scanner.nextLine();
+            }
+
+            System.out.print("Número da Empresa: ");
+            int numeroEmpresa = Integer.parseInt(scanner.nextLine());
+            while (numeroEmpresa <= 0) {
+                System.out.println("Número Invalido");
+                numeroEmpresa = Integer.parseInt(scanner.nextLine());
+            }
+
+            System.out.print("Cidade da Empresa: ");
+            String cidadeEmpresa = scanner.nextLine();
+            while (cidadeEmpresa.length() < 4) {
+                System.out.println("Cidade Invalida");
+                cidadeEmpresa = scanner.nextLine();
+            }
+
+            System.out.print("Bairro da Empresa: ");
+            String bairroEmpresa = scanner.nextLine();
+            while (bairroEmpresa.length() < 4) {
+                System.out.println("Bairro Invalido");
+                bairroEmpresa = scanner.nextLine();
+            }
+
+            Endereco endereco = new Endereco(logradouro, numeroEmpresa, cidadeEmpresa, bairroEmpresa);
+            EmpresaMei empresa = new EmpresaMei(nomeEmpresario, razaoSocial, tipoAtuacao, endereco);
 
             while (true) {
-                System.out.println("Possui Funcionario?: Digite S ou N");
+                System.out.println("Possui Funcionário?: Digite S ou N");
                 String respostaFuncionario = scanner.nextLine();
                 if (respostaFuncionario.equalsIgnoreCase("S") || respostaFuncionario.equalsIgnoreCase("SIM")) {
                     empresa.setPossuiFuncionario(true);
@@ -78,6 +109,10 @@ public class Main {
                     Nome da Empresa: %s
                     Razão Social: %s
                     Atuação: %s
+                    Logradouro: %s
+                    Número: %d
+                    Cidade: %s
+                    Bairro: %s
                     Imposto DAS (Mensal): R$ %.2f
                     Status do Imposto : %s
                     Possui Funcionário: %s
@@ -87,6 +122,8 @@ public class Main {
                     Empresa Regular: %s
                     Faturamento Mensais: %s
                     """.formatted(empresa.getNomeEmpresario(), empresa.getRazaoSocial(), empresa.verificarTipoAtuacao(),
+                    empresa.getEndereco().getLogradouro(), empresa.getEndereco().getNumero(),
+                    empresa.getEndereco().getCidade(), empresa.getEndereco().getBairro(),
                     empresa.calcularValorDas(), empresa.verificarStatusImposto(), empresa.verificarPossuiFuncionario(),
                     empresa.calcularFaturamentoAnual(), empresa.avaliarFaturamentoAnual(),
                     empresa.margemFaturamentoRestante(), empresa.verificarEmpresaRegular(), faturamentosMensaisTexto);
