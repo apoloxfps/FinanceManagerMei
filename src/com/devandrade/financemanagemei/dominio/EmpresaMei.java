@@ -1,33 +1,21 @@
 package com.devandrade.financemanagemei.dominio;
 
-public class EmpresaMei {
+public class EmpresaMei extends Empresa{
     private static final double LIMITE_ANUAL_MEI = 81000.00;
     private static int totalDeEmpresasCadastradas;
     private final String nomeEmpresario;
-    private final String razaoSocial;
     private final int tipoAtuacao;
-    private double[] faturamentos;
-    private char statusImposto = 'A';
     private boolean possuiFuncionario;
-    private final Endereco endereco;
 
     public EmpresaMei(String nomeEmpresario, String razaoSocial, int tipoAtuacao, Endereco endereco) {
+        super(razaoSocial, endereco);
         this.nomeEmpresario = nomeEmpresario;
-        this.razaoSocial = razaoSocial;
         this.tipoAtuacao = tipoAtuacao;
-        this.endereco = endereco;
         EmpresaMei.totalDeEmpresasCadastradas += 1;
     }
 
     public String verificarPossuiFuncionario() {
         return this.possuiFuncionario ? "SIM" : "NÃO";
-    }
-    public double calcularFaturamentoAnual() {
-        double faturamentoAnual = 0;
-        for (double faturamento : this.faturamentos) {
-            faturamentoAnual += faturamento;
-        }
-        return faturamentoAnual;
     }
 
     public double calcularValorDas() {
@@ -67,15 +55,8 @@ public class EmpresaMei {
         return LIMITE_ANUAL_MEI - this.calcularFaturamentoAnual();
     }
 
-    public String verificarStatusImposto () {
-        if (this.statusImposto != 'A') {
-            return "Inadimplente.";
-        }
-        return "Adimplente.";
-    }
-
     public String verificarEmpresaRegular () {
-        boolean regraRegulamentacao = this.statusImposto == 'A' && !this.isUltrapassouLimite();
+        boolean regraRegulamentacao = this.getStatusImposto() == 'A' && !this.isUltrapassouLimite();
         if (!regraRegulamentacao) {
             return "Empresa desregulamentada Verifique seus status de imposto e seu faturamento anual.";
         }
@@ -86,18 +67,6 @@ public class EmpresaMei {
         return nomeEmpresario;
     }
 
-    public String getRazaoSocial() {
-        return razaoSocial;
-    }
-
-    public void setFaturamentos(double[] faturamentos) {
-        if (faturamentos == null) {
-            System.out.println("Sem faturamentos");
-            return;
-        }
-        this.faturamentos = faturamentos;
-    }
-
     public void setPossuiFuncionario(boolean possuiFuncionario) {
         this.possuiFuncionario = possuiFuncionario;
     }
@@ -106,7 +75,4 @@ public class EmpresaMei {
         return totalDeEmpresasCadastradas;
     }
 
-    public Endereco getEndereco() {
-        return endereco;
-    }
 }
