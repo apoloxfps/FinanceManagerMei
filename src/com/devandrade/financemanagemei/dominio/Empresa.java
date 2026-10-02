@@ -11,7 +11,7 @@ public class Empresa {
         this.endereco = endereco;
     }
 
-    public double calcularFaturamentoAnual() {
+    public final double calcularFaturamentoAnual() {
         double faturamentoAnual = 0;
         for (double faturamento : this.faturamentos) {
             faturamentoAnual += faturamento;
@@ -19,12 +19,24 @@ public class Empresa {
         return faturamentoAnual;
     }
 
-    public String verificarStatusImposto () {
+    public final String verificarStatusImposto () {
         if (this.statusImposto != 'A') {
             return "Inadimplente.";
         }
         return "Adimplente.";
     }
+
+    protected final String formatarFaturamentoMensal() {
+        if (faturamentos == null){
+            return "Sem faturamentos";
+        }
+        StringBuilder faturamentosSb = new StringBuilder();
+        for (int i = 0; i < faturamentos.length; i++) {
+            faturamentosSb.append("\nMês: ").append(i+1).append(" | ").append(String.format("Faturamento: R$ %.2f",faturamentos[i]));
+        }
+        return faturamentosSb.toString();
+    }
+
     public Endereco getEndereco() {
         return endereco;
     }

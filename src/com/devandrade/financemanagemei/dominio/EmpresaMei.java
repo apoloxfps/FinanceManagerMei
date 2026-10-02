@@ -1,6 +1,6 @@
 package com.devandrade.financemanagemei.dominio;
 
-public class EmpresaMei extends Empresa{
+public final class EmpresaMei extends Empresa{
     private static final double LIMITE_ANUAL_MEI = 81000.00;
     private static int totalDeEmpresasCadastradas;
     private final String nomeEmpresario;
@@ -14,11 +14,11 @@ public class EmpresaMei extends Empresa{
         EmpresaMei.totalDeEmpresasCadastradas += 1;
     }
 
-    public String verificarPossuiFuncionario() {
+    private String verificarPossuiFuncionario() {
         return this.possuiFuncionario ? "SIM" : "NÃO";
     }
 
-    public double calcularValorDas() {
+    private double calcularValorDas() {
         return switch (this.tipoAtuacao) {
             case 1 -> 71.60;
             case 2 -> 72.60;
@@ -27,7 +27,7 @@ public class EmpresaMei extends Empresa{
         };
     }
 
-    public String verificarTipoAtuacao() {
+    private String verificarTipoAtuacao() {
         return switch (this.tipoAtuacao) {
             case 1 -> "Comercio";
             case 2 -> "Industria";
@@ -40,7 +40,7 @@ public class EmpresaMei extends Empresa{
         return this.calcularFaturamentoAnual() > LIMITE_ANUAL_MEI;
     }
 
-    public String avaliarFaturamentoAnual () {
+    private String avaliarFaturamentoAnual () {
         double valorAlertaDePerigo = LIMITE_ANUAL_MEI * 0.8;
         if (this.isUltrapassouLimite()) {
             return "ALERTA CRÍTICO: A EMPRESA ULTRAPASSOU O LIMITE ANUAL! Procure um contador ";
@@ -51,11 +51,11 @@ public class EmpresaMei extends Empresa{
         }
     }
 
-    public double margemFaturamentoRestante () {
+    private double margemFaturamentoRestante () {
         return LIMITE_ANUAL_MEI - this.calcularFaturamentoAnual();
     }
 
-    public String verificarEmpresaRegular () {
+    private String verificarEmpresaRegular () {
         boolean regraRegulamentacao = this.getStatusImposto() == 'A' && !this.isUltrapassouLimite();
         if (!regraRegulamentacao) {
             return "Empresa desregulamentada Verifique seus status de imposto e seu faturamento anual.";
@@ -63,8 +63,31 @@ public class EmpresaMei extends Empresa{
         return "Empresa regulamentada.";
     }
 
-    public String getNomeEmpresario() {
-        return nomeEmpresario;
+    @Override
+    public String toString() {
+        return """
+            === RELATÓRIO ===
+            Nome da Empresa: %s
+            Razão Social: %s
+            Atuação: %s
+            Logradouro: %s
+            Número: %d
+            Cidade: %s
+            Bairro: %s
+            Imposto DAS (Mensal): R$ %.2f
+            Status do Imposto : %s
+            Possui Funcionário: %s
+            Faturamento Anual: R$ %.2f
+            Alerta de Faturamento: %s
+            Margem de Faturamento Restante: R$ %.2f
+            Empresa Regular: %s
+            Faturamento Mensais: %s
+            """.formatted(this.nomeEmpresario, this.getRazaoSocial(), this.verificarTipoAtuacao(),
+        this.getEndereco().getLogradouro(), this.getEndereco().getNumero(),
+        this.getEndereco().getCidade(), this.getEndereco().getBairro(),
+        this.calcularValorDas(), this.verificarStatusImposto(), this.verificarPossuiFuncionario(),
+        this.calcularFaturamentoAnual(), this.avaliarFaturamentoAnual(),
+        this.margemFaturamentoRestante(), this.verificarEmpresaRegular(), this.formatarFaturamentoMensal());
     }
 
     public void setPossuiFuncionario(boolean possuiFuncionario) {
