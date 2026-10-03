@@ -19,7 +19,7 @@ public class Empresa {
         return faturamentoAnual;
     }
 
-    public final String verificarStatusImposto () {
+    public final String verificarStatusImposto() {
         if (this.statusImposto != 'A') {
             return "Inadimplente.";
         }
@@ -27,12 +27,12 @@ public class Empresa {
     }
 
     protected final String formatarFaturamentoMensal() {
-        if (faturamentos == null){
+        if (faturamentos == null) {
             return "Sem faturamentos";
         }
         StringBuilder faturamentosSb = new StringBuilder();
         for (int i = 0; i < faturamentos.length; i++) {
-            faturamentosSb.append("\nMês: ").append(i+1).append(" | ").append(String.format("Faturamento: R$ %.2f",faturamentos[i]));
+            faturamentosSb.append("\nMês: ").append(i + 1).append(" | ").append(String.format("Faturamento: R$ %.2f", faturamentos[i]));
         }
         return faturamentosSb.toString();
     }

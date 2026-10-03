@@ -1,6 +1,8 @@
 package com.devandrade.financemanagemei.main;
+
 import com.devandrade.financemanagemei.dominio.EmpresaMei;
 import com.devandrade.financemanagemei.dominio.Endereco;
+import com.devandrade.financemanagemei.dominio.TipoAtuacao;
 
 import java.util.Scanner;
 
@@ -25,7 +27,8 @@ public class Main {
 
             /* TODO: validação de nome/razão social/atuação/logradouro/numero/cidade/bairro
                 deveria viver em suas Classes de dominio, não em Main —
-                duplicação temporária até chegar em exceções (aula 95+)*/
+                duplicação temporária até chegar em exceções (aula 95+)
+                TipoAtuacao tambem precisa de ter exceções*/
             System.out.println("Nome Empresario: ");
             String nomeEmpresario = scanner.nextLine();
             while (nomeEmpresario.length() < 3) {
@@ -75,9 +78,9 @@ public class Main {
                 System.out.println("Bairro Invalido");
                 bairroEmpresa = scanner.nextLine();
             }
-
+            TipoAtuacao atuacao = TipoAtuacao.fromCodigo(tipoAtuacao);
             Endereco endereco = new Endereco(logradouro, numeroEmpresa, cidadeEmpresa, bairroEmpresa);
-            EmpresaMei empresa = new EmpresaMei(nomeEmpresario, razaoSocial, tipoAtuacao, endereco);
+            EmpresaMei empresa = new EmpresaMei(nomeEmpresario, razaoSocial, atuacao, endereco);
 
             while (true) {
                 System.out.println("Possui Funcionário?: Digite S ou N");
@@ -95,7 +98,7 @@ public class Main {
 
             double[] faturamentosArray = new double[12];
             for (int i = 0; i < faturamentosArray.length; i++) {
-                System.out.printf("Digite Seu Faturamento do Mês %d: ",(i+1));
+                System.out.printf("Digite Seu Faturamento do Mês %d: ", (i + 1));
                 double faturamentoMensal = Double.parseDouble(scanner.nextLine());
                 faturamentosArray[i] = faturamentoMensal;
             }
