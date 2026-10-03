@@ -1,6 +1,6 @@
 package com.devandrade.financemanagemei.dominio;
 
-public class Empresa {
+public abstract class Empresa {
     private final Endereco endereco;
     private final String razaoSocial;
     private char statusImposto = 'A';
