@@ -46,6 +46,11 @@ public final class EmpresaMei extends Empresa {
     }
 
     @Override
+    public double calcularImpostoMensal() {
+        return this.tipoAtuacao.getValorTaxaDAS();
+    }
+
+    @Override
     public String toString() {
         return """
                 === RELATÓRIO ===
@@ -67,7 +72,7 @@ public final class EmpresaMei extends Empresa {
                 """.formatted(this.nomeEmpresario, this.getRazaoSocial(), this.tipoAtuacao.getNomeAtuacao(),
                 this.getEndereco().getLogradouro(), this.getEndereco().getNumero(),
                 this.getEndereco().getCidade(), this.getEndereco().getBairro(),
-                this.tipoAtuacao.getValorTaxaDAS(), this.verificarStatusImposto(), this.verificarPossuiFuncionario(),
+                this.calcularImpostoMensal(), this.verificarStatusImposto(), this.verificarPossuiFuncionario(),
                 this.calcularFaturamentoAnual(), this.avaliarFaturamentoAnual(),
                 this.margemFaturamentoRestante(), this.verificarEmpresaRegular(), this.formatarFaturamentoMensal());
     }

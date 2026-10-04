@@ -11,6 +11,8 @@ public abstract class Empresa {
         this.endereco = endereco;
     }
 
+    public abstract double calcularImpostoMensal();
+
     public final double calcularFaturamentoAnual() {
         double faturamentoAnual = 0;
         for (double faturamento : this.faturamentos) {
