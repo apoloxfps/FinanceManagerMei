@@ -1,10 +1,13 @@
 package com.devandrade.financemanagemei.dominio;
 
-public class MicroEmpresa extends Empresa {
+public final class MicroEmpresa extends Empresa {
     private static final double IMPOSTO_SIMPLES_NACIONAL = 0.06;
+    private static int totalDeEmpresasCadastradas;
+
 
     public MicroEmpresa(String razaoSocial, Endereco endereco) {
         super(razaoSocial, endereco);
+        MicroEmpresa.totalDeEmpresasCadastradas += 1;
     }
 
     @Override
@@ -17,8 +20,14 @@ public class MicroEmpresa extends Empresa {
         return """
                 === RELATÓRIO ===
                 Razão Social: %s
-                Imposto Simples Nacional: R$ %.2f
-                Status do Imposto : %s
+                Imposto Simples Nacional: %.2f
+                Status do Imposto: %s
+                
                 """.formatted(this.getRazaoSocial(), this.calcularImpostoMensal(), this.verificarStatusImposto());
     }
+
+    public static int getTotalDeEmpresasCadastradas() {
+        return totalDeEmpresasCadastradas;
+    }
+
 }

@@ -57,11 +57,11 @@ public final class EmpresaMei extends Empresa {
                 Nome da Empresa: %s
                 Razão Social: %s
                 Atuação: %s
+                Imposto DAS: %.2f
                 Logradouro: %s
                 Número: %d
                 Cidade: %s
                 Bairro: %s
-                Imposto DAS (Mensal): R$ %.2f
                 Status do Imposto : %s
                 Possui Funcionário: %s
                 Faturamento Anual: R$ %.2f
@@ -70,9 +70,8 @@ public final class EmpresaMei extends Empresa {
                 Empresa Regular: %s
                 Faturamento Mensais: %s
                 """.formatted(this.nomeEmpresario, this.getRazaoSocial(), this.tipoAtuacao.getNomeAtuacao(),
-                this.getEndereco().getLogradouro(), this.getEndereco().getNumero(),
-                this.getEndereco().getCidade(), this.getEndereco().getBairro(),
-                this.calcularImpostoMensal(), this.verificarStatusImposto(), this.verificarPossuiFuncionario(),
+                this.calcularImpostoMensal(), this.getEndereco().getLogradouro(), this.getEndereco().getNumero(),
+                this.getEndereco().getCidade(), this.getEndereco().getBairro(), this.verificarStatusImposto(), this.verificarPossuiFuncionario(),
                 this.calcularFaturamentoAnual(), this.avaliarFaturamentoAnual(),
                 this.margemFaturamentoRestante(), this.verificarEmpresaRegular(), this.formatarFaturamentoMensal());
     }
