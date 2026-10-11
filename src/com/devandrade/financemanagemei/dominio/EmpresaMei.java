@@ -1,5 +1,7 @@
 package com.devandrade.financemanagemei.dominio;
 
+import com.devandrade.financemanagemei.exception.DominioInvalidoException;
+
 public final class EmpresaMei extends Empresa {
     private static final double LIMITE_ANUAL_MEI = 81000.00;
     private static int totalDeEmpresasCadastradas;
@@ -9,7 +11,14 @@ public final class EmpresaMei extends Empresa {
 
     public EmpresaMei(String nomeEmpresario, String razaoSocial, TipoAtuacao tipoAtuacao, Endereco endereco) {
         super(razaoSocial, endereco);
+        if (nomeEmpresario == null || nomeEmpresario.trim().length() < 3) {
+            throw new DominioInvalidoException("Nome Invalido");
+        }
         this.nomeEmpresario = nomeEmpresario;
+
+        if (tipoAtuacao == null) {
+            throw new DominioInvalidoException("Tipo de Atuação nao foi informada");
+        }
         this.tipoAtuacao = tipoAtuacao;
         EmpresaMei.totalDeEmpresasCadastradas += 1;
     }

@@ -1,6 +1,7 @@
 package com.devandrade.financemanagemei.main;
 
 import com.devandrade.financemanagemei.dominio.*;
+import com.devandrade.financemanagemei.exception.DominioInvalidoException;
 import com.devandrade.financemanagemei.servico.ServicoContabilidade;
 
 import java.util.Scanner;
@@ -10,7 +11,6 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-
             System.out.println("=== Finance Manager Mei ===\n[ 1 ] Cadastrar Empresa MEI\n[ 2 ] Cadastrar MicroEmpresa (ME)\n[ 3 ] Sair do Sistema\nDigite 1, 2 ou 3");
             int opcao = Integer.parseInt(scanner.nextLine());
 
@@ -25,66 +25,66 @@ public class Main {
                 continue;
             }
 
-            /* TODO: validação de nome/razão social/atuação/logradouro/numero/cidade/bairro
-                deveria viver em suas Classes de dominio, não em Main —
-                duplicação temporária até chegar em exceções (aula 95+)
-                TipoAtuacao tambem precisa de ter exceções*/
-
-            System.out.println("Razão Social: (ex: nome completo + cnpj)");
-            String razaoSocial = scanner.nextLine();
-            while (razaoSocial.length() < 15) {
-                System.out.println("Razão Social Invalida");
-                razaoSocial = scanner.nextLine();
+            String razaoSocial;
+            while (true) {
+                try {
+                    System.out.println("Razão Social: (ex: nome completo + cnpj)");
+                    razaoSocial = scanner.nextLine();
+                    Empresa.validarRazaoSocial(razaoSocial);
+                    break;
+                } catch (DominioInvalidoException e) {
+                    System.out.println("Houve um erro: " + e.getMessage());
+                }
             }
 
-            System.out.print("Logradouro da Empresa: ");
-            String logradouro = scanner.nextLine();
-            while (logradouro.length() < 4) {
-                System.out.println("Logradouro Invalido");
-                logradouro = scanner.nextLine();
+            Endereco endereco;
+            while (true) {
+                try {
+                    System.out.print("Logradouro da Empresa: ");
+                    String logradouro = scanner.nextLine();
+
+                    System.out.print("Número da Empresa: ");
+                    int numeroEmpresa = Integer.parseInt(scanner.nextLine());
+
+                    System.out.print("Cidade da Empresa: ");
+                    String cidadeEmpresa = scanner.nextLine();
+
+                    System.out.print("Bairro da Empresa: ");
+                    String bairroEmpresa = scanner.nextLine();
+
+                    endereco = new Endereco(logradouro, numeroEmpresa, cidadeEmpresa, bairroEmpresa);
+                    break;
+                } catch (DominioInvalidoException e) {
+                    System.out.println("Endereço Invalido -> " + e.getMessage());
+                } catch (NumberFormatException e) {
+                    System.out.println("Número do endereço precisa ser numérico");
+                }
             }
 
-            System.out.print("Número da Empresa: ");
-            int numeroEmpresa = Integer.parseInt(scanner.nextLine());
-            while (numeroEmpresa <= 0) {
-                System.out.println("Número Invalido");
-                numeroEmpresa = Integer.parseInt(scanner.nextLine());
-            }
-
-            System.out.print("Cidade da Empresa: ");
-            String cidadeEmpresa = scanner.nextLine();
-            while (cidadeEmpresa.length() < 4) {
-                System.out.println("Cidade Invalida");
-                cidadeEmpresa = scanner.nextLine();
-            }
-
-            System.out.print("Bairro da Empresa: ");
-            String bairroEmpresa = scanner.nextLine();
-            while (bairroEmpresa.length() < 4) {
-                System.out.println("Bairro Invalido");
-                bairroEmpresa = scanner.nextLine();
-            }
-
-            Endereco endereco = new Endereco(logradouro, numeroEmpresa, cidadeEmpresa, bairroEmpresa);
             Empresa empresaCadastrada = null;
+            if (opcao == 2) {
+                empresaCadastrada = new MicroEmpresa(razaoSocial, endereco);
+            }
 
             if (opcao == 1) {
-                System.out.println("Nome Empresario: ");
-                String nomeEmpresario = scanner.nextLine();
-                while (nomeEmpresario.length() < 3) {
-                    System.out.println("Nome Invalido");
-                    nomeEmpresario = scanner.nextLine();
-                }
+                EmpresaMei empresaMei;
+                while (true) {
+                    try {
+                        System.out.println("Nome Empresario: ");
+                        String nomeEmpresario = scanner.nextLine();
 
-                System.out.println("Tipo de Atuação\n[ 1 ] Comercio \n[ 2 ] Industria \n[ 3 ] Prestação de Serviços\nDigite 1, 2 ou 3: ");
-                int tipoAtuacao = Integer.parseInt(scanner.nextLine());
-                while (tipoAtuacao <= 0 || tipoAtuacao > 3) {
-                    System.out.println("Atuação Invalida.");
-                    tipoAtuacao = Integer.parseInt(scanner.nextLine());
-                }
+                        System.out.println("Tipo de Atuação\n[ 1 ] Comercio \n[ 2 ] Industria \n[ 3 ] Prestação de Serviços\nDigite 1, 2 ou 3: ");
+                        int tipoAtuacao = Integer.parseInt(scanner.nextLine());
 
-                TipoAtuacao atuacao = TipoAtuacao.fromCodigo(tipoAtuacao);
-                EmpresaMei empresaMei = new EmpresaMei(nomeEmpresario, razaoSocial, atuacao, endereco);
+                        TipoAtuacao atuacao = TipoAtuacao.fromCodigo(tipoAtuacao);
+                        empresaMei = new EmpresaMei(nomeEmpresario, razaoSocial, atuacao, endereco);
+                        break;
+                    } catch (DominioInvalidoException e) {
+                        System.out.println("Houve um erro: " + e.getMessage());
+                    } catch (NumberFormatException e) {
+                        System.out.println("Valor precisa ser numérico");
+                    }
+                }
 
                 while (true) {
                     System.out.println("Possui Funcionário?: Digite S ou N");
@@ -101,15 +101,20 @@ public class Main {
                 empresaCadastrada = empresaMei;
             }
 
-            if (opcao == 2) {
-                empresaCadastrada = new MicroEmpresa(razaoSocial, endereco);
-            }
-
             double[] faturamentosArray = new double[12];
             for (int i = 0; i < faturamentosArray.length; i++) {
-                System.out.printf("Digite Seu Faturamento do Mês %d: ", (i + 1));
-                double faturamentoMensal = Double.parseDouble(scanner.nextLine());
-                faturamentosArray[i] = faturamentoMensal;
+                try {
+                    System.out.printf("Digite Seu Faturamento do Mês %d: ", (i + 1));
+                    double faturamentoMensal = Double.parseDouble(scanner.nextLine());
+                    Empresa.validarValorMensal(faturamentoMensal, (i + 1));
+                    faturamentosArray[i] = faturamentoMensal;
+                } catch (DominioInvalidoException e) {
+                    System.out.println("Erro:" + e.getMessage());
+                    i--;
+                } catch (NumberFormatException e) {
+                    System.out.println("Faturamento do Mês " + (i + 1) + " precisa ser numérico");
+                    i--;
+                }
             }
             empresaCadastrada.setFaturamentos(faturamentosArray);
 

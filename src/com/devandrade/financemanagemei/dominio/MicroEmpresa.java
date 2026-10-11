@@ -1,7 +1,7 @@
 package com.devandrade.financemanagemei.dominio;
 
 public final class MicroEmpresa extends Empresa {
-    private static final double IMPOSTO_SIMPLES_NACIONAL = 0.06;
+    private static final double IMPOSTO_POR_CENTO = 0.06;
     private static int totalDeEmpresasCadastradas;
 
 
@@ -12,7 +12,7 @@ public final class MicroEmpresa extends Empresa {
 
     @Override
     public double calcularImpostoMensal() {
-        return (this.calcularFaturamentoAnual() * IMPOSTO_SIMPLES_NACIONAL) / 12;
+        return (this.calcularFaturamentoAnual() * IMPOSTO_POR_CENTO) / 12;
     }
 
     @Override
@@ -22,8 +22,11 @@ public final class MicroEmpresa extends Empresa {
                 Razão Social: %s
                 Imposto Simples Nacional: %.2f
                 Status do Imposto: %s
+                Faturamentos Mensais: %s
+                Faturamento Anual: %.2f
                 
-                """.formatted(this.getRazaoSocial(), this.calcularImpostoMensal(), this.verificarStatusImposto());
+                """.formatted(this.getRazaoSocial(), this.calcularImpostoMensal(),
+                this.verificarStatusImposto(), this.formatarFaturamentoMensal(), this.calcularFaturamentoAnual());
     }
 
     public static int getTotalDeEmpresasCadastradas() {

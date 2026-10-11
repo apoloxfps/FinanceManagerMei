@@ -1,5 +1,9 @@
 package com.devandrade.financemanagemei.dominio;
 
+import com.devandrade.financemanagemei.exception.DominioInvalidoException;
+
+import java.util.Arrays;
+
 public abstract class Empresa {
     private final Endereco endereco;
     private final String razaoSocial;
@@ -7,8 +11,24 @@ public abstract class Empresa {
     private double[] faturamentos;
 
     public Empresa(String razaoSocial, Endereco endereco) {
-        this.razaoSocial = razaoSocial;
+        this.razaoSocial = validarRazaoSocial(razaoSocial);
+        if (endereco == null) {
+            throw new DominioInvalidoException("Endereço não foi informado");
+        }
         this.endereco = endereco;
+    }
+
+    public static String validarRazaoSocial(String razaoSocial) {
+        if (razaoSocial == null || razaoSocial.trim().length() < 15) {
+            throw new DominioInvalidoException("Razão social Invalida!");
+        }
+        return razaoSocial;
+    }
+
+    public static void validarValorMensal(double valor, int mes) {
+        if (valor < 0) {
+            throw new DominioInvalidoException("Faturamento do Més " + mes + " Não pode ser negativo");
+        }
     }
 
     public abstract double calcularImpostoMensal();
@@ -47,12 +67,17 @@ public abstract class Empresa {
         return razaoSocial;
     }
 
-    public void setFaturamentos(double[] faturamentos) {
+    public final void setFaturamentos(double[] faturamentos) {
         if (faturamentos == null) {
-            System.out.println("Sem faturamentos");
-            return;
+            throw new DominioInvalidoException("Sem faturamentos");
         }
-        this.faturamentos = faturamentos;
+        if (faturamentos.length != 12) {
+            throw new DominioInvalidoException("Quantidade de Meses Incompatível");
+        }
+        for (int i = 0; i < faturamentos.length; i++) {
+            validarValorMensal(faturamentos[i], (i + 1));
+        }
+        this.faturamentos = Arrays.copyOf(faturamentos, faturamentos.length);
     }
 
     public char getStatusImposto() {

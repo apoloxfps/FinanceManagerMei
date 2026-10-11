@@ -1,5 +1,7 @@
 package com.devandrade.financemanagemei.dominio;
 
+import com.devandrade.financemanagemei.exception.DominioInvalidoException;
+
 public enum TipoAtuacao {
     COMERCIO(1, 71.60, "Comercio"),
     INDUSTRIA(2, 72.60, "Industria"),
@@ -21,7 +23,7 @@ public enum TipoAtuacao {
                 return tipoAtuacao;
             }
         }
-        return null;
+        throw new DominioInvalidoException("Tipo de Atuação Invalida");
     }
 
     public int getCodigo() {
