@@ -11,7 +11,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            int opcao = 0;
+            int opcao;
             try {
                 System.out.println("=== Finance Manager Mei ===\n[ 1 ] Cadastrar Empresa MEI\n[ 2 ] Cadastrar MicroEmpresa (ME)\n[ 3 ] Sair do Sistema\nDigite 1, 2 ou 3");
                 opcao = Integer.parseInt(scanner.nextLine());
@@ -67,12 +67,11 @@ public class Main {
                 }
             }
 
-            Empresa empresaCadastrada = null;
+            Empresa empresaCadastrada;
             if (opcao == 2) {
                 empresaCadastrada = new MicroEmpresa(razaoSocial, endereco);
             }
-
-            if (opcao == 1) {
+            else {
                 EmpresaMei empresaMei;
                 while (true) {
                     try {
