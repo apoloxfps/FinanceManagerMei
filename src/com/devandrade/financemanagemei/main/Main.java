@@ -11,18 +11,24 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
-            System.out.println("=== Finance Manager Mei ===\n[ 1 ] Cadastrar Empresa MEI\n[ 2 ] Cadastrar MicroEmpresa (ME)\n[ 3 ] Sair do Sistema\nDigite 1, 2 ou 3");
-            int opcao = Integer.parseInt(scanner.nextLine());
+            int opcao = 0;
+            try {
+                System.out.println("=== Finance Manager Mei ===\n[ 1 ] Cadastrar Empresa MEI\n[ 2 ] Cadastrar MicroEmpresa (ME)\n[ 3 ] Sair do Sistema\nDigite 1, 2 ou 3");
+                opcao = Integer.parseInt(scanner.nextLine());
+                validarOpcao(opcao);
+            } catch (NumberFormatException e) {
+                System.out.println("Opção Informada não é numérico");
+                continue;
+            } catch (DominioInvalidoException e) {
+                System.out.println("Erro: " + e.getMessage());
+                continue;
+            }
 
             if (opcao == 3) {
                 System.out.printf("Total de Empresas MEI cadastradas nesta sessão: %d%n", EmpresaMei.getTotalDeEmpresasCadastradas());
                 System.out.printf("Total de Micro Empresa (ME) cadastradas nesta sessão: %d%n", MicroEmpresa.getTotalDeEmpresasCadastradas());
                 System.out.println("Sistema Finalizado.");
                 break;
-            }
-            if (opcao != 1 && opcao != 2) {
-                System.out.println("Opção Invalida, Tente Novamente.");
-                continue;
             }
 
             String razaoSocial;
@@ -125,6 +131,12 @@ public class Main {
 
             System.out.println(empresaCadastrada);
             ServicoContabilidade.gerarRelatorioTributario(empresaCadastrada);
+        }
+    }
+
+    private static void validarOpcao(int opcao) {
+        if (opcao <= 0 || opcao > 3) {
+            throw new DominioInvalidoException("Opção " + opcao + " Não Existe");
         }
     }
 
