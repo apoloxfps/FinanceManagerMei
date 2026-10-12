@@ -8,7 +8,7 @@ public abstract class Empresa {
     private final Endereco endereco;
     private final String razaoSocial;
     private char statusImposto = 'A';
-    private double[] faturamentos;
+    private Double[] faturamentos;
 
     public Empresa(String razaoSocial, Endereco endereco) {
         this.razaoSocial = validarRazaoSocial(razaoSocial);
@@ -25,18 +25,14 @@ public abstract class Empresa {
         return razaoSocial;
     }
 
-    public static void validarValorMensal(double valor, int mes) {
-        if (valor < 0) {
-            throw new DominioInvalidoException("Faturamento do Més " + mes + " Não pode ser negativo");
-        }
-    }
-
     public abstract double calcularImpostoMensal();
 
     public final double calcularFaturamentoAnual() {
         double faturamentoAnual = 0;
-        for (double faturamento : this.faturamentos) {
-            faturamentoAnual += faturamento;
+        for (Double faturamento : this.faturamentos) {
+            if (faturamento != null) {
+                faturamentoAnual += faturamento;
+            }
         }
         return faturamentoAnual;
     }
@@ -54,9 +50,19 @@ public abstract class Empresa {
         }
         StringBuilder faturamentosSb = new StringBuilder();
         for (int i = 0; i < faturamentos.length; i++) {
+            if (faturamentos[i] == null) {
+                faturamentosSb.append("\nMês: ").append(i + 1).append(" | ").append("Faturamento Pendente...");
+                continue;
+            }
             faturamentosSb.append("\nMês: ").append(i + 1).append(" | ").append(String.format("Faturamento: R$ %.2f", faturamentos[i]));
         }
         return faturamentosSb.toString();
+    }
+
+    public static void validarValorMensal(double valor, int mes) {
+        if (valor < 0) {
+            throw new DominioInvalidoException("Faturamento do Mês " + mes + " Não pode ser negativo");
+        }
     }
 
     public Endereco getEndereco() {
@@ -67,7 +73,11 @@ public abstract class Empresa {
         return razaoSocial;
     }
 
-    public final void setFaturamentos(double[] faturamentos) {
+    public Double[] getFaturamentos() {
+        return faturamentos;
+    }
+
+    public final void setFaturamentos(Double[] faturamentos) {
         if (faturamentos == null) {
             throw new DominioInvalidoException("Sem faturamentos");
         }
@@ -75,6 +85,9 @@ public abstract class Empresa {
             throw new DominioInvalidoException("Quantidade de Meses Incompatível");
         }
         for (int i = 0; i < faturamentos.length; i++) {
+            if (faturamentos[i] == null) {
+                continue;
+            }
             validarValorMensal(faturamentos[i], (i + 1));
         }
         this.faturamentos = Arrays.copyOf(faturamentos, faturamentos.length);

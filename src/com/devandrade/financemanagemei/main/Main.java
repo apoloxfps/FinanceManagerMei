@@ -101,11 +101,16 @@ public class Main {
                 empresaCadastrada = empresaMei;
             }
 
-            double[] faturamentosArray = new double[12];
+            Double[] faturamentosArray = new Double[12];
             for (int i = 0; i < faturamentosArray.length; i++) {
                 try {
                     System.out.printf("Digite Seu Faturamento do Mês %d: ", (i + 1));
-                    double faturamentoMensal = Double.parseDouble(scanner.nextLine());
+                    String entrada = scanner.nextLine();
+                    if (entrada.trim().isEmpty()) {
+                        faturamentosArray[i] = null;
+                        continue;
+                    }
+                    double faturamentoMensal = Double.parseDouble(entrada);
                     Empresa.validarValorMensal(faturamentoMensal, (i + 1));
                     faturamentosArray[i] = faturamentoMensal;
                 } catch (DominioInvalidoException e) {
