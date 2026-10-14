@@ -19,7 +19,7 @@ public class Main {
             } catch (NumberFormatException e) {
                 System.out.println("Opção Informada não é numérico");
                 continue;
-            } catch (DominioInvalidoException e) {
+            } catch (IllegalArgumentException e) {
                 System.out.println("Erro: " + e.getMessage());
                 continue;
             }
@@ -135,7 +135,7 @@ public class Main {
 
     private static void validarOpcao(int opcao) {
         if (opcao <= 0 || opcao > 3) {
-            throw new DominioInvalidoException("Opção " + opcao + " Não Existe");
+            throw new IllegalArgumentException("Opção " + opcao + " Não Existe");
         }
     }
 

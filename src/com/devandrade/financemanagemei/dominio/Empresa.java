@@ -73,6 +73,9 @@ public abstract class Empresa {
         if (valor < 0) {
             throw new DominioInvalidoException("Faturamento do Mês " + mes + " Não pode ser negativo");
         }
+        if (Double.isNaN(valor) || Double.isInfinite(valor)) {
+            throw new DominioInvalidoException("O valor fornecido no mês "+ mes + " não pode ser infinito ou indefinido (NaN).");
+        }
     }
 
     public Endereco getEndereco() {
