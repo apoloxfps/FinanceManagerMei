@@ -37,6 +37,16 @@ public abstract class Empresa {
         return faturamentoAnual;
     }
 
+    protected final int calcularMesesInformados() {
+        int mesesInformados = 0;
+        for (Double faturamento : this.faturamentos) {
+            if (faturamento != null) {
+                mesesInformados += 1;
+            }
+        }
+        return mesesInformados;
+    }
+
     public final String verificarStatusImposto() {
         if (this.statusImposto != 'A') {
             return "Inadimplente.";
@@ -71,10 +81,6 @@ public abstract class Empresa {
 
     public String getRazaoSocial() {
         return razaoSocial;
-    }
-
-    public Double[] getFaturamentos() {
-        return faturamentos;
     }
 
     public final void setFaturamentos(Double[] faturamentos) {

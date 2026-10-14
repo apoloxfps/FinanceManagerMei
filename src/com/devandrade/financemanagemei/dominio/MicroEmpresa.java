@@ -1,5 +1,6 @@
 package com.devandrade.financemanagemei.dominio;
 
+
 public final class MicroEmpresa extends Empresa {
     private static final double IMPOSTO_POR_CENTO = 0.06;
     private static int totalDeEmpresasCadastradas;
@@ -12,12 +13,7 @@ public final class MicroEmpresa extends Empresa {
 
     @Override
     public double calcularImpostoMensal() {
-        int mesesInformados = 0;
-        for (Double faturamento : this.getFaturamentos()) {
-            if (faturamento != null) {
-                mesesInformados += 1;
-            }
-        }
+        int mesesInformados = calcularMesesInformados();
         if (mesesInformados == 0) {
             return 0.0;
         }
@@ -36,11 +32,11 @@ public final class MicroEmpresa extends Empresa {
                 Imposto Simples Nacional: %.2f
                 Status do Imposto: %s
                 Faturamentos Mensais: %s
+                Meses Informados: %d
                 Faturamento Anual: %.2f
-                
                 """.formatted(this.getRazaoSocial(), this.getEndereco().getLogradouro(), this.getEndereco().getNumero(),
                 this.getEndereco().getCidade(), this.getEndereco().getBairro(), this.calcularImpostoMensal(),
-                this.verificarStatusImposto(), this.formatarFaturamentoMensal(), this.calcularFaturamentoAnual());
+                this.verificarStatusImposto(), this.formatarFaturamentoMensal(),this.calcularMesesInformados(), this.calcularFaturamentoAnual());
     }
 
     public static int getTotalDeEmpresasCadastradas() {

@@ -73,16 +73,17 @@ public final class EmpresaMei extends Empresa {
                 Bairro: %s
                 Status do Imposto : %s
                 Possui Funcionário: %s
-                Faturamento Anual: R$ %.2f
                 Alerta de Faturamento: %s
                 Margem de Faturamento Restante: R$ %.2f
                 Empresa Regular: %s
                 Faturamento Mensais: %s
+                Meses Informados: %d
+                Faturamento Anual: R$ %.2f
                 """.formatted(this.nomeEmpresario, this.getRazaoSocial(), this.tipoAtuacao.getNomeAtuacao(),
                 this.calcularImpostoMensal(), this.getEndereco().getLogradouro(), this.getEndereco().getNumero(),
                 this.getEndereco().getCidade(), this.getEndereco().getBairro(), this.verificarStatusImposto(), this.verificarPossuiFuncionario(),
-                this.calcularFaturamentoAnual(), this.avaliarFaturamentoAnual(),
-                this.margemFaturamentoRestante(), this.verificarEmpresaRegular(), this.formatarFaturamentoMensal());
+                this.avaliarFaturamentoAnual(), this.margemFaturamentoRestante(), this.verificarEmpresaRegular(),
+                this.formatarFaturamentoMensal(), this.calcularMesesInformados(), this.calcularFaturamentoAnual());
     }
 
     public void setPossuiFuncionario(boolean possuiFuncionario) {
