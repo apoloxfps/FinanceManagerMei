@@ -1,6 +1,7 @@
 package com.devandrade.financemanagemei.dominio;
 
 import com.devandrade.financemanagemei.exception.DominioInvalidoException;
+import com.devandrade.financemanagemei.util.StringUtil;
 
 import java.util.Arrays;
 
@@ -19,10 +20,14 @@ public abstract class Empresa {
     }
 
     public static String validarRazaoSocial(String razaoSocial) {
-        if (razaoSocial == null || razaoSocial.trim().length() < 15) {
+        if (razaoSocial == null) {
+            throw new DominioInvalidoException("A Razão social não foi informada");
+        }
+        String razaoSocialFormatada = StringUtil.formatString(razaoSocial);
+        if (razaoSocialFormatada.length() < 15) {
             throw new DominioInvalidoException("Razão social Invalida!");
         }
-        return razaoSocial;
+        return razaoSocialFormatada;
     }
 
     public abstract double calcularImpostoMensal();

@@ -1,6 +1,7 @@
 package com.devandrade.financemanagemei.dominio;
 
 import com.devandrade.financemanagemei.exception.DominioInvalidoException;
+import com.devandrade.financemanagemei.util.StringUtil;
 
 public class Endereco {
     private final String logradouro;
@@ -20,10 +21,14 @@ public class Endereco {
     }
 
     private String validarString(String valor, String msgError) {
-        if (valor == null || valor.trim().length() < 2) {
+        if (valor == null) {
+            throw new DominioInvalidoException("Não foi informado o Endereço -> " + msgError);
+        }
+        String valorFormatado = StringUtil.formatString(valor);
+        if (valorFormatado.length() < 2) {
             throw new DominioInvalidoException(msgError);
         }
-        return valor;
+        return valorFormatado;
     }
 
     public String getLogradouro() {

@@ -3,6 +3,7 @@ package com.devandrade.financemanagemei.main;
 import com.devandrade.financemanagemei.dominio.*;
 import com.devandrade.financemanagemei.exception.DominioInvalidoException;
 import com.devandrade.financemanagemei.servico.ServicoContabilidade;
+import com.devandrade.financemanagemei.util.StringUtil;
 
 import java.util.Scanner;
 
@@ -115,7 +116,8 @@ public class Main {
                         faturamentosArray[i] = null;
                         continue;
                     }
-                    double faturamentoMensal = Double.parseDouble(entrada);
+                    String faturamentoMensalFormat = StringUtil.formatFaturamento(entrada);
+                    double faturamentoMensal = Double.parseDouble(faturamentoMensalFormat);
                     Empresa.validarValorMensal(faturamentoMensal, (i + 1));
                     faturamentosArray[i] = faturamentoMensal;
                 } catch (DominioInvalidoException e) {
