@@ -69,7 +69,7 @@ public abstract class Empresa {
                 faturamentosSb.append("\nMês: ").append(i + 1).append(" | ").append("Faturamento Pendente...");
                 continue;
             }
-            faturamentosSb.append("\nMês: ").append(i + 1).append(" | ").append(String.format("Faturamento: R$ %.2f", faturamentos[i]));
+            faturamentosSb.append("\nMês: ").append(i + 1).append(" | ").append(String.format("Faturamento: %s", StringUtil.formatMoeda(faturamentos[i])));
         }
         return faturamentosSb.toString();
     }

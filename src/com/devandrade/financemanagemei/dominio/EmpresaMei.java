@@ -68,10 +68,11 @@ public final class EmpresaMei extends Empresa {
     public String toString() {
         return """
                 === RELATÓRIO ===
+                Data de Emissão: %s
                 Nome da Empresa: %s
                 Razão Social: %s
                 Atuação: %s
-                Imposto DAS: %.2f
+                Imposto DAS: %s
                 Logradouro: %s
                 Número: %d
                 Cidade: %s
@@ -79,16 +80,17 @@ public final class EmpresaMei extends Empresa {
                 Status do Imposto : %s
                 Possui Funcionário: %s
                 Alerta de Faturamento: %s
-                Margem de Faturamento Restante: R$ %.2f
+                Margem de Faturamento Restante: %s
                 Empresa Regular: %s
                 Faturamento Mensais: %s
                 Meses Informados: %d
-                Faturamento Anual: R$ %.2f
-                """.formatted(this.nomeEmpresario, this.getRazaoSocial(), this.tipoAtuacao.getNomeAtuacao(),
-                this.calcularImpostoMensal(), this.getEndereco().getLogradouro(), this.getEndereco().getNumero(),
-                this.getEndereco().getCidade(), this.getEndereco().getBairro(), this.verificarStatusImposto(), this.verificarPossuiFuncionario(),
-                this.avaliarFaturamentoAnual(), this.margemFaturamentoRestante(), this.verificarEmpresaRegular(),
-                this.formatarFaturamentoMensal(), this.calcularMesesInformados(), this.calcularFaturamentoAnual());
+                Faturamento Anual: %s
+                """.formatted(StringUtil.emitirDataRelatorio(), this.nomeEmpresario, this.getRazaoSocial(),
+                this.tipoAtuacao.getNomeAtuacao(), StringUtil.formatMoeda(this.calcularImpostoMensal()), this.getEndereco().getLogradouro(),
+                this.getEndereco().getNumero(), this.getEndereco().getCidade(), this.getEndereco().getBairro(),
+                this.verificarStatusImposto(), this.verificarPossuiFuncionario(), this.avaliarFaturamentoAnual(),
+                StringUtil.formatMoeda(this.margemFaturamentoRestante()), this.verificarEmpresaRegular(),
+                this.formatarFaturamentoMensal(), this.calcularMesesInformados(), StringUtil.formatMoeda(this.calcularFaturamentoAnual()));
     }
 
     public void setPossuiFuncionario(boolean possuiFuncionario) {

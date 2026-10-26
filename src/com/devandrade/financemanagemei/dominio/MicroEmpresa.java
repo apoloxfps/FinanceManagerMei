@@ -1,6 +1,8 @@
 package com.devandrade.financemanagemei.dominio;
 
 
+import com.devandrade.financemanagemei.util.StringUtil;
+
 public final class MicroEmpresa extends Empresa {
     private static final double IMPOSTO_POR_CENTO = 0.06;
     private static int totalDeEmpresasCadastradas;
@@ -24,19 +26,22 @@ public final class MicroEmpresa extends Empresa {
     public String toString() {
         return """
                 === RELATÓRIO ===
+                Data de Emissão: %s
                 Razão Social: %s
                 Logradouro: %s
                 Número: %d
                 Cidade: %s
                 Bairro: %s
-                Imposto Simples Nacional: %.2f
+                Imposto Simples Nacional: %s
                 Status do Imposto: %s
                 Faturamentos Mensais: %s
                 Meses Informados: %d
-                Faturamento Anual: %.2f
-                """.formatted(this.getRazaoSocial(), this.getEndereco().getLogradouro(), this.getEndereco().getNumero(),
-                this.getEndereco().getCidade(), this.getEndereco().getBairro(), this.calcularImpostoMensal(),
-                this.verificarStatusImposto(), this.formatarFaturamentoMensal(),this.calcularMesesInformados(), this.calcularFaturamentoAnual());
+                Faturamento Anual: %s
+                """.formatted(StringUtil.emitirDataRelatorio(), this.getRazaoSocial(), this.getEndereco().getLogradouro(),
+                this.getEndereco().getNumero(), this.getEndereco().getCidade(), this.getEndereco().getBairro(),
+                StringUtil.formatMoeda(this.calcularImpostoMensal()), this.verificarStatusImposto(),
+                this.formatarFaturamentoMensal(), this.calcularMesesInformados(),
+                StringUtil.formatMoeda(this.calcularFaturamentoAnual()));
     }
 
     public static int getTotalDeEmpresasCadastradas() {
