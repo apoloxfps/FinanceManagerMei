@@ -5,6 +5,8 @@ import com.devandrade.financemanagemei.exception.DominioInvalidoException;
 import com.devandrade.financemanagemei.servico.ServicoContabilidade;
 import com.devandrade.financemanagemei.util.StringUtil;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 public class Main {
@@ -68,11 +70,24 @@ public class Main {
                 }
             }
 
+            LocalDate dataAberturaEmpresa;
+            while (true) {
+                try {
+                    System.out.println("Data de abertura da Empresa, ex 13/03/2003: ");
+                    String dataInformada = scanner.nextLine();
+                    dataAberturaEmpresa = Empresa.verificarDataAbertura(dataInformada);
+                    break;
+                } catch (DominioInvalidoException e) {
+                    System.out.println(e.getMessage());
+                } catch (DateTimeParseException e) {
+                    System.out.println("Data Inválida, certifique-se de digitar uma data real no formato dd/mm/aaaa");
+                }
+            }
+
             Empresa empresaCadastrada;
             if (opcao == 2) {
-                empresaCadastrada = new MicroEmpresa(razaoSocial, endereco);
-            }
-            else {
+                empresaCadastrada = new MicroEmpresa(razaoSocial, endereco, dataAberturaEmpresa);
+            } else {
                 EmpresaMei empresaMei;
                 while (true) {
                     try {
@@ -83,7 +98,7 @@ public class Main {
                         int tipoAtuacao = Integer.parseInt(scanner.nextLine());
 
                         TipoAtuacao atuacao = TipoAtuacao.fromCodigo(tipoAtuacao);
-                        empresaMei = new EmpresaMei(nomeEmpresario, razaoSocial, atuacao, endereco);
+                        empresaMei = new EmpresaMei(nomeEmpresario, razaoSocial, atuacao, endereco, dataAberturaEmpresa);
                         break;
                     } catch (DominioInvalidoException e) {
                         System.out.println("Houve um erro: " + e.getMessage());

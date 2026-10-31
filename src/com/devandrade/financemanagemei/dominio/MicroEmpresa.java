@@ -3,13 +3,15 @@ package com.devandrade.financemanagemei.dominio;
 
 import com.devandrade.financemanagemei.util.StringUtil;
 
+import java.time.LocalDate;
+
 public final class MicroEmpresa extends Empresa {
     private static final double IMPOSTO_POR_CENTO = 0.06;
     private static int totalDeEmpresasCadastradas;
 
 
-    public MicroEmpresa(String razaoSocial, Endereco endereco) {
-        super(razaoSocial, endereco);
+    public MicroEmpresa(String razaoSocial, Endereco endereco, LocalDate dataAbertura) {
+        super(razaoSocial, endereco, dataAbertura);
         MicroEmpresa.totalDeEmpresasCadastradas += 1;
     }
 
@@ -27,21 +29,23 @@ public final class MicroEmpresa extends Empresa {
         return """
                 === RELATÓRIO ===
                 Data de Emissão: %s
+                Idade da Empresa: %s
                 Razão Social: %s
                 Logradouro: %s
                 Número: %d
                 Cidade: %s
                 Bairro: %s
                 Imposto Simples Nacional: %s
+                Vencimento do Imposto: %s
                 Status do Imposto: %s
                 Faturamentos Mensais: %s
                 Meses Informados: %d
                 Faturamento Anual: %s
-                """.formatted(StringUtil.emitirDataRelatorio(), this.getRazaoSocial(), this.getEndereco().getLogradouro(),
-                this.getEndereco().getNumero(), this.getEndereco().getCidade(), this.getEndereco().getBairro(),
-                StringUtil.formatMoeda(this.calcularImpostoMensal()), this.verificarStatusImposto(),
-                this.formatarFaturamentoMensal(), this.calcularMesesInformados(),
-                StringUtil.formatMoeda(this.calcularFaturamentoAnual()));
+                """.formatted(StringUtil.emitirDataRelatorio(), formatarTempoAberturaEmpresa(), this.getRazaoSocial(),
+                this.getEndereco().getLogradouro(), this.getEndereco().getNumero(), this.getEndereco().getCidade(),
+                this.getEndereco().getBairro(), StringUtil.formatMoeda(this.calcularImpostoMensal()),
+                formatarDataVencimentoImposto(), this.verificarStatusImposto(), this.formatarFaturamentoMensal(),
+                this.calcularMesesInformados(), StringUtil.formatMoeda(this.calcularFaturamentoAnual()));
     }
 
     public static int getTotalDeEmpresasCadastradas() {

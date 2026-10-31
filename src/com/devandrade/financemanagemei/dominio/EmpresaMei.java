@@ -3,6 +3,8 @@ package com.devandrade.financemanagemei.dominio;
 import com.devandrade.financemanagemei.exception.DominioInvalidoException;
 import com.devandrade.financemanagemei.util.StringUtil;
 
+import java.time.LocalDate;
+
 public final class EmpresaMei extends Empresa {
     private static final double LIMITE_ANUAL_MEI = 81000.00;
     private static int totalDeEmpresasCadastradas;
@@ -10,8 +12,8 @@ public final class EmpresaMei extends Empresa {
     private final TipoAtuacao tipoAtuacao;
     private boolean possuiFuncionario;
 
-    public EmpresaMei(String nomeEmpresario, String razaoSocial, TipoAtuacao tipoAtuacao, Endereco endereco) {
-        super(razaoSocial, endereco);
+    public EmpresaMei(String nomeEmpresario, String razaoSocial, TipoAtuacao tipoAtuacao, Endereco endereco, LocalDate dataAbertura) {
+        super(razaoSocial, endereco, dataAbertura);
         if (nomeEmpresario == null) {
             throw new DominioInvalidoException("Nome não foi informado");
         }
@@ -69,10 +71,12 @@ public final class EmpresaMei extends Empresa {
         return """
                 === RELATÓRIO ===
                 Data de Emissão: %s
+                Idade da Empresa: %s
                 Nome da Empresa: %s
                 Razão Social: %s
                 Atuação: %s
                 Imposto DAS: %s
+                Vencimento do Imposto: %s
                 Logradouro: %s
                 Número: %d
                 Cidade: %s
@@ -85,12 +89,13 @@ public final class EmpresaMei extends Empresa {
                 Faturamento Mensais: %s
                 Meses Informados: %d
                 Faturamento Anual: %s
-                """.formatted(StringUtil.emitirDataRelatorio(), this.nomeEmpresario, this.getRazaoSocial(),
-                this.tipoAtuacao.getNomeAtuacao(), StringUtil.formatMoeda(this.calcularImpostoMensal()), this.getEndereco().getLogradouro(),
-                this.getEndereco().getNumero(), this.getEndereco().getCidade(), this.getEndereco().getBairro(),
-                this.verificarStatusImposto(), this.verificarPossuiFuncionario(), this.avaliarFaturamentoAnual(),
-                StringUtil.formatMoeda(this.margemFaturamentoRestante()), this.verificarEmpresaRegular(),
-                this.formatarFaturamentoMensal(), this.calcularMesesInformados(), StringUtil.formatMoeda(this.calcularFaturamentoAnual()));
+                """.formatted(StringUtil.emitirDataRelatorio(), formatarTempoAberturaEmpresa(), this.nomeEmpresario,
+                this.getRazaoSocial(), this.tipoAtuacao.getNomeAtuacao(), StringUtil.formatMoeda(this.calcularImpostoMensal()),
+                formatarDataVencimentoImposto(), this.getEndereco().getLogradouro(), this.getEndereco().getNumero(),
+                this.getEndereco().getCidade(), this.getEndereco().getBairro(), this.verificarStatusImposto(),
+                this.verificarPossuiFuncionario(), this.avaliarFaturamentoAnual(), StringUtil.formatMoeda(this.margemFaturamentoRestante()),
+                this.verificarEmpresaRegular(), this.formatarFaturamentoMensal(),
+                this.calcularMesesInformados(), StringUtil.formatMoeda(this.calcularFaturamentoAnual()));
     }
 
     public void setPossuiFuncionario(boolean possuiFuncionario) {
