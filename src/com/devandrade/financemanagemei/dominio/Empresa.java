@@ -9,6 +9,8 @@ import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.time.format.ResolverStyle;
 import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public abstract class Empresa {
     private final Endereco endereco;
@@ -16,14 +18,33 @@ public abstract class Empresa {
     private char statusImposto = 'A';
     private Double[] faturamentos;
     private final LocalDate dataAbertura;
+    private final String cnpj;
 
-    public Empresa(String razaoSocial, Endereco endereco, LocalDate dataAbertura) {
+    public Empresa(String razaoSocial, Endereco endereco, LocalDate dataAbertura, String cnpj) {
         this.razaoSocial = validarRazaoSocial(razaoSocial);
         if (endereco == null) {
             throw new DominioInvalidoException("Endereço não foi informado");
         }
         this.endereco = endereco;
         this.dataAbertura = validarDataAbertura(dataAbertura);
+        this.cnpj = validarCnpj(cnpj);
+    }
+
+    public static String validarCnpj(String cnpjInformado) {
+        if (cnpjInformado == null) {
+            throw new DominioInvalidoException("CNPJ não foi informado.");
+        }
+        String regex = "^\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher comparator = pattern.matcher(cnpjInformado);
+        if (!comparator.matches()) {
+            throw new DominioInvalidoException("CNPJ Invalido, Tente Novamente");
+        }
+        String apenasNumeros = cnpjInformado.replaceAll("\\D", "");
+        if (apenasNumeros.matches("(\\d)\\1{13}")) {
+            throw new DominioInvalidoException("CNPJ Invalido, digite um CNPJ valido");
+        }
+        return cnpjInformado;
     }
 
     private LocalDate calcularDataVencimentoImposto() {
@@ -191,5 +212,9 @@ public abstract class Empresa {
 
     public char getStatusImposto() {
         return statusImposto;
+    }
+
+    public String getCnpj() {
+        return cnpj;
     }
 }

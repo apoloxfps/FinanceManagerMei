@@ -12,8 +12,8 @@ public final class EmpresaMei extends Empresa {
     private final TipoAtuacao tipoAtuacao;
     private boolean possuiFuncionario;
 
-    public EmpresaMei(String nomeEmpresario, String razaoSocial, TipoAtuacao tipoAtuacao, Endereco endereco, LocalDate dataAbertura) {
-        super(razaoSocial, endereco, dataAbertura);
+    public EmpresaMei(String nomeEmpresario, String razaoSocial, TipoAtuacao tipoAtuacao, Endereco endereco, LocalDate dataAbertura, String cnpj) {
+        super(razaoSocial, endereco, dataAbertura, cnpj);
         if (nomeEmpresario == null) {
             throw new DominioInvalidoException("Nome não foi informado");
         }
@@ -74,6 +74,7 @@ public final class EmpresaMei extends Empresa {
                 Idade da Empresa: %s
                 Nome da Empresa: %s
                 Razão Social: %s
+                CNPJ: %s
                 Atuação: %s
                 Imposto DAS: %s
                 Vencimento do Imposto: %s
@@ -90,10 +91,11 @@ public final class EmpresaMei extends Empresa {
                 Meses Informados: %d
                 Faturamento Anual: %s
                 """.formatted(StringUtil.emitirDataRelatorio(), formatarTempoAberturaEmpresa(), this.nomeEmpresario,
-                this.getRazaoSocial(), this.tipoAtuacao.getNomeAtuacao(), StringUtil.formatMoeda(this.calcularImpostoMensal()),
-                formatarDataVencimentoImposto(), this.getEndereco().getLogradouro(), this.getEndereco().getNumero(),
-                this.getEndereco().getCidade(), this.getEndereco().getBairro(), this.verificarStatusImposto(),
-                this.verificarPossuiFuncionario(), this.avaliarFaturamentoAnual(), StringUtil.formatMoeda(this.margemFaturamentoRestante()),
+                this.getRazaoSocial(), this.getCnpj(), this.tipoAtuacao.getNomeAtuacao(),
+                StringUtil.formatMoeda(this.calcularImpostoMensal()), formatarDataVencimentoImposto(),
+                this.getEndereco().getLogradouro(), this.getEndereco().getNumero(), this.getEndereco().getCidade(),
+                this.getEndereco().getBairro(), this.verificarStatusImposto(), this.verificarPossuiFuncionario(),
+                this.avaliarFaturamentoAnual(), StringUtil.formatMoeda(this.margemFaturamentoRestante()),
                 this.verificarEmpresaRegular(), this.formatarFaturamentoMensal(),
                 this.calcularMesesInformados(), StringUtil.formatMoeda(this.calcularFaturamentoAnual()));
     }

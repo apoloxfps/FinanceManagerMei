@@ -37,7 +37,7 @@ public class Main {
             String razaoSocial;
             while (true) {
                 try {
-                    System.out.println("Razão Social: (ex: nome completo + cnpj)");
+                    System.out.println("Razão Social (ex: nome completo): ");
                     razaoSocial = scanner.nextLine();
                     Empresa.validarRazaoSocial(razaoSocial);
                     break;
@@ -84,9 +84,21 @@ public class Main {
                 }
             }
 
+            String cnpj;
+            while (true) {
+                try {
+                    System.out.println("CNPJ (ex: 12.345.678/0001-95): ");
+                    cnpj = scanner.nextLine();
+                    Empresa.validarCnpj(cnpj);
+                    break;
+                } catch (DominioInvalidoException e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+
             Empresa empresaCadastrada;
             if (opcao == 2) {
-                empresaCadastrada = new MicroEmpresa(razaoSocial, endereco, dataAberturaEmpresa);
+                empresaCadastrada = new MicroEmpresa(razaoSocial, endereco, dataAberturaEmpresa, cnpj);
             } else {
                 EmpresaMei empresaMei;
                 while (true) {
@@ -98,7 +110,7 @@ public class Main {
                         int tipoAtuacao = Integer.parseInt(scanner.nextLine());
 
                         TipoAtuacao atuacao = TipoAtuacao.fromCodigo(tipoAtuacao);
-                        empresaMei = new EmpresaMei(nomeEmpresario, razaoSocial, atuacao, endereco, dataAberturaEmpresa);
+                        empresaMei = new EmpresaMei(nomeEmpresario, razaoSocial, atuacao, endereco, dataAberturaEmpresa, cnpj);
                         break;
                     } catch (DominioInvalidoException e) {
                         System.out.println("Houve um erro: " + e.getMessage());
