@@ -37,7 +37,7 @@ public class Main {
             String razaoSocial;
             while (true) {
                 try {
-                    System.out.println("Razão Social (ex: nome completo): ");
+                    System.out.println("Razão Social (ex: nome completo ou nome da empresa/ME): ");
                     razaoSocial = scanner.nextLine();
                     Empresa.validarRazaoSocial(razaoSocial);
                     break;
