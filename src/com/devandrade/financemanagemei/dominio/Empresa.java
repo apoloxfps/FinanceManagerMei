@@ -39,12 +39,13 @@ public abstract class Empresa {
             throw new DominioInvalidoException("CNPJ não foi informado.");
         }
 
+        String cnpjFormatado = StringUtil.formatString(cnpjInformado);
         Pattern pattern = Pattern.compile(CNPJ_FORMATO);
-        Matcher comparator = pattern.matcher(cnpjInformado);
+        Matcher comparator = pattern.matcher(cnpjFormatado);
         if (!comparator.matches()) {
             throw new DominioInvalidoException("CNPJ Invalido, Tente Novamente");
         }
-        String cnpjLimpo = cnpjInformado.replaceAll("\\W", "");
+        String cnpjLimpo = cnpjFormatado.replaceAll("\\W", "");
         if (cnpjLimpo.matches(APENAS_ALFANUMERICOS)) {
             throw new DominioInvalidoException("CNPJ Invalido, digite um CNPJ valido");
         }
@@ -56,7 +57,7 @@ public abstract class Empresa {
         if (cnpjLimpo.charAt(12) - 48 != primeiroDigito || cnpjLimpo.charAt(13) - 48 != segundoDigito) {
             throw new DominioInvalidoException("Error, esse CNPJ não existe");
         }
-        return cnpjInformado;
+        return cnpjFormatado;
     }
 
     private static int calcularDigitoCnpj(String cnpjLimpo, int... pesos) {
