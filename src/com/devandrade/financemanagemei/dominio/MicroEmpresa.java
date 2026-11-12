@@ -10,7 +10,7 @@ public final class MicroEmpresa extends Empresa {
     private static int totalDeEmpresasCadastradas;
 
 
-    public MicroEmpresa(String razaoSocial, Endereco endereco, LocalDate dataAbertura, String cnpj) {
+    public MicroEmpresa(String razaoSocial, Endereco endereco, LocalDate dataAbertura, Cnpj cnpj) {
         super(razaoSocial, endereco, dataAbertura, cnpj);
         MicroEmpresa.totalDeEmpresasCadastradas += 1;
     }
@@ -43,7 +43,7 @@ public final class MicroEmpresa extends Empresa {
                 Meses Informados: %d
                 Faturamento Anual: %s
                 """.formatted(StringUtil.emitirDataRelatorio(), formatarTempoAberturaEmpresa(), this.getRazaoSocial(),
-                this.getCnpj(), this.getEndereco().getLogradouro(), this.getEndereco().getNumero(), this.getEndereco().getCidade(),
+                this.getCnpjEmpresa().getCnpj(), this.getEndereco().getLogradouro(), this.getEndereco().getNumero(), this.getEndereco().getCidade(),
                 this.getEndereco().getBairro(), StringUtil.formatMoeda(this.calcularImpostoMensal()),
                 formatarDataVencimentoImposto(), this.verificarStatusImposto(), this.formatarFaturamentoMensal(),
                 this.calcularMesesInformados(), StringUtil.formatMoeda(this.calcularFaturamentoAnual()));

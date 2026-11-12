@@ -84,12 +84,12 @@ public class Main {
                 }
             }
 
-            String cnpj;
+            Cnpj cnpj;
             while (true) {
                 try {
                     System.out.println("CNPJ (ex: 12.345.678/0001-95): ");
-                    cnpj = scanner.nextLine();
-                    Empresa.validarCnpj(cnpj);
+                    String cnpjInformado = scanner.nextLine();
+                    cnpj = new Cnpj(cnpjInformado);
                     break;
                 } catch (DominioInvalidoException e) {
                     System.out.println(e.getMessage());
@@ -145,7 +145,6 @@ public class Main {
                     }
                     String faturamentoMensalFormat = StringUtil.formatFaturamento(entrada);
                     double faturamentoMensal = Double.parseDouble(faturamentoMensalFormat);
-                    Empresa.validarValorMensal(faturamentoMensal, (i + 1));
                     faturamentosArray[i] = faturamentoMensal;
                 } catch (DominioInvalidoException e) {
                     System.out.println("Erro:" + e.getMessage());

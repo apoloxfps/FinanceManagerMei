@@ -12,7 +12,7 @@ public final class EmpresaMei extends Empresa {
     private final TipoAtuacao tipoAtuacao;
     private boolean possuiFuncionario;
 
-    public EmpresaMei(String nomeEmpresario, String razaoSocial, TipoAtuacao tipoAtuacao, Endereco endereco, LocalDate dataAbertura, String cnpj) {
+    public EmpresaMei(String nomeEmpresario, String razaoSocial, TipoAtuacao tipoAtuacao, Endereco endereco, LocalDate dataAbertura, Cnpj cnpj) {
         super(razaoSocial, endereco, dataAbertura, cnpj);
         if (nomeEmpresario == null) {
             throw new DominioInvalidoException("Nome não foi informado");
@@ -91,7 +91,7 @@ public final class EmpresaMei extends Empresa {
                 Meses Informados: %d
                 Faturamento Anual: %s
                 """.formatted(StringUtil.emitirDataRelatorio(), formatarTempoAberturaEmpresa(), this.nomeEmpresario,
-                this.getRazaoSocial(), this.getCnpj(), this.tipoAtuacao.getNomeAtuacao(),
+                this.getRazaoSocial(), this.getCnpjEmpresa().getCnpj(), this.tipoAtuacao.getNomeAtuacao(),
                 StringUtil.formatMoeda(this.calcularImpostoMensal()), formatarDataVencimentoImposto(),
                 this.getEndereco().getLogradouro(), this.getEndereco().getNumero(), this.getEndereco().getCidade(),
                 this.getEndereco().getBairro(), this.verificarStatusImposto(), this.verificarPossuiFuncionario(),

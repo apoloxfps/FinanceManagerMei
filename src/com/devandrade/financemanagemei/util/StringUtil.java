@@ -6,6 +6,8 @@ import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class StringUtil {
     public static String formatString(String test) {
@@ -13,10 +15,13 @@ public class StringUtil {
     }
 
     public static String formatFaturamento(String faturamento) {
-        if (faturamento.contains(".")) {
-            throw new DominioInvalidoException("Não separe o milhar e Use virgula para centavos!");
+        String faturamentoFormatado = faturamento.trim();
+        Pattern pattern = Pattern.compile("^\\d+(,\\d{1,2})?$");
+        Matcher compararFaturamento = pattern.matcher(faturamentoFormatado);
+        if (!compararFaturamento.matches()) {
+            throw new DominioInvalidoException("Faturamento Invalido, Informe um valor valido (ex: 1500,50)");
         }
-        return faturamento.trim().replaceAll("\\s+", "").replace(",", ".");
+        return faturamentoFormatado.replace(",", ".");
     }
 
     public static String formatMoeda(double valor) {
