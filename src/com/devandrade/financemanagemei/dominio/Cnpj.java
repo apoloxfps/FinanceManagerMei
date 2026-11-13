@@ -8,7 +8,8 @@ import java.util.regex.Pattern;
 
 public final class Cnpj {
     private static final String CNPJ_FORMATO = "^[0-9A-Z]{2}\\.[0-9A-Z]{3}\\.[0-9A-Z]{3}/[0-9A-Z]{4}-\\d{2}$";
-    private static final String APENAS_ALFANUMERICOS = "(\\w)\\1{13}";
+    private static final String CARACTERES_IGUAIS = "(\\w)\\1{13}";
+    private static final int DESLOCAMENTO_ASCII = 48;
     private static final int[] PESOS_PRIMEIRO_DIGITO = {5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2};
     private static final int[] PESOS_SEGUNDO_DIGITO = {6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2};
     private final String cnpj;
@@ -17,7 +18,8 @@ public final class Cnpj {
         this.cnpj = validarCnpj(cnpj);
     }
 
-    public static String validarCnpj(String cnpjInformado) {
+    // TODO faltando equals e hashcode
+    private static String validarCnpj(String cnpjInformado) {
         if (cnpjInformado == null) {
             throw new DominioInvalidoException("CNPJ não foi informado.");
         }
@@ -29,7 +31,7 @@ public final class Cnpj {
             throw new DominioInvalidoException("CNPJ Invalido, Tente Novamente");
         }
         String cnpjLimpo = cnpjFormatado.replaceAll("\\W", "");
-        if (cnpjLimpo.matches(APENAS_ALFANUMERICOS)) {
+        if (cnpjLimpo.matches(CARACTERES_IGUAIS)) {
             throw new DominioInvalidoException("CNPJ Invalido, digite um CNPJ valido");
         }
 
@@ -37,8 +39,8 @@ public final class Cnpj {
         int primeiroDigito = calcularDigitoCnpj(cnpjLimpo, PESOS_PRIMEIRO_DIGITO);
         int segundoDigito = calcularDigitoCnpj(cnpjLimpo, PESOS_SEGUNDO_DIGITO);
 
-        if (cnpjLimpo.charAt(12) - 48 != primeiroDigito || cnpjLimpo.charAt(13) - 48 != segundoDigito) {
-            throw new DominioInvalidoException("Error, esse CNPJ não existe");
+        if (cnpjLimpo.charAt(12) - DESLOCAMENTO_ASCII != primeiroDigito || cnpjLimpo.charAt(13) - DESLOCAMENTO_ASCII != segundoDigito) {
+            throw new DominioInvalidoException("Erro, dígitos verificadores inválidos");
         }
         return cnpjFormatado;
     }
@@ -46,7 +48,7 @@ public final class Cnpj {
     private static int calcularDigitoCnpj(String cnpjLimpo, int... pesos) {
         int soma = 0;
         for (int i = 0; i < pesos.length; i++) {
-            int valor = cnpjLimpo.charAt(i) - 48;
+            int valor = cnpjLimpo.charAt(i) - DESLOCAMENTO_ASCII;
             soma += valor * pesos[i];
         }
         int resto = soma % 11;

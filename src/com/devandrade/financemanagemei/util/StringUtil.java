@@ -16,7 +16,7 @@ public class StringUtil {
 
     public static String formatFaturamento(String faturamento) {
         String faturamentoFormatado = faturamento.trim();
-        Pattern pattern = Pattern.compile("^\\d+(,\\d{1,2})?$");
+        Pattern pattern = Pattern.compile("^\\d{1,12}(,\\d{1,2})?$");
         Matcher compararFaturamento = pattern.matcher(faturamentoFormatado);
         if (!compararFaturamento.matches()) {
             throw new DominioInvalidoException("Faturamento Invalido, Informe um valor valido (ex: 1500,50)");
