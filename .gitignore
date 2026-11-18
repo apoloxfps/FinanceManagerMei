@@ -3,3 +3,4 @@
 out/
 *.puml
 /src/com/devandrade/financemanagemei/main/MainTest.java
+.github/copilot-instructions.md
